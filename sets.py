@@ -1,31 +1,31 @@
-from sets_categories_data import (ALCOHOLS)
+# sets_categories_data.py
+ALCOHOLS = {
+    'vodka', 'gin', 'rum', 'tequila', 'whiskey', 'bourbon', 'scotch', 'brandy', 
+    'cognac', 'liqueur', 'vermouth', 'triple sec', 'absinthe', 'schnapps', 'wine', 
+    'beer', 'champagne', 'sake'
+}
 
+# main script
+from sets_categories_data import ALCOHOLS
 
-def clean_ingredients(dish_name, dish_ingredients):
-    """Remove duplicates from `dish_ingredients`.
+# 2.1. Limpiar los ingredientes repetidos del plato
+def clean_ingredients(dish_name, ingredients):
+    unique_ingredients = set(ingredients)
+    return (dish_name, unique_ingredients)
 
-    :param dish_name: str - containing the dish name.
-    :param dish_ingredients: list - dish ingredients.
-    :return: tuple - containing (dish_name, ingredient set).
+# 2.2. Clasificar Cócteles y Mocktails
+def check_drinks(drink_name, ingredients):
+    for ingredient in ingredients:
+        if ingredient in ALCOHOLS:
+            return f"{drink_name} Cocktail"
+    return f"{drink_name} Mocktail"
 
-    This function should return a `tuple` with the name of the dish as the first item,
-    followed by the de-duped `set` of ingredients as the second item.
-    """
+# Ejemplos de uso
+print(clean_ingredients('Punjabi-Style Chole', ['onions', 'tomatoes', 'ginger paste', 'garlic paste', 'ginger paste', 'vegetable oil', 'bay leaves', 'cloves', 'cardamom', 'cilantro', 'peppercorns', 'cumin powder', 'chickpeas', 'coriander powder', 'red chili powder', 'ground turmeric', 'garam masala', 'chickpeas', 'ginger', 'cilantro']))
+# Debería imprimir: ('Punjabi-Style Chole', {'garam masala', 'bay leaves', 'ground turmeric', 'ginger', 'garlic paste', 'peppercorns', 'ginger paste', 'red chili powder', 'cardamom', 'chickpeas', 'cumin powder', 'vegetable oil', 'tomatoes', 'coriander powder', 'onions', 'cilantro', 'cloves'})
 
-    return ()
+print(check_drinks('Honeydew Cucumber', ['honeydew', 'coconut water', 'mint leaves', 'lime juice', 'salt', 'english cucumber']))
+# Debería imprimir: 'Honeydew Cucumber Mocktail'
 
-
-def check_drinks(drink_name, drink_ingredients):
-    """Append "Cocktail" (alcohol)  or "Mocktail" (no alcohol) to `drink_name`, based on `drink_ingredients`.
-
-    :param drink_name: str - name of the drink.
-    :param drink_ingredients: list - ingredients in the drink.
-    :return: str - drink_name appended with "Mocktail" or "Cocktail".
-
-    The function should return the name of the drink followed by "Mocktail" (non-alcoholic) and drink
-    name followed by "Cocktail" (includes alcohol).
-
-    """
-
-    return ""
-
+print(check_drinks('Shirley Tonic', ['cinnamon stick', 'scotch', 'whole cloves', 'ginger', 'pomegranate juice', 'sugar', 'club soda']))
+# Debería imprimir: 'Shirley Tonic Cocktail'
