@@ -32,29 +32,37 @@ rui_list = [
     ("Foggy Seacave", ("8", "C"), "Purple")
 ]
 
-# 1.1. Extraer coordenadas
-def get_coordinate(treasure_info):
-    return treasure_info[1]
+def get_coordinate(record):
+    """Return coordinate value from a tuple containing the treasure name, and treasure coordinate.
+    :param record: tuple - with a (treasure, coordinate) pair.
+    :return: str - the extracted map coordinate.
+    """
+    return record[1]
 
-# 1.2. Formatear coordenadas
-def convert_coordinate(coord):
-    return (coord[0], coord[1])
+def convert_coordinate(coordinate):
+    """Split the given coordinate into a tuple containing its individual components.
+    :param coordinate: str - a string map coordinate.
+    :return: tuple - the string coordinate split into its individual components.
+    """
+    return (coordinate[0], coordinate[1])
 
-# 1.3. Combinar registros
-def create_record(treasure_info, location_info):
-    treasure, azara_coord = treasure_info
-    location_name, rui_coord, quadrant = location_info
-    azara_coord_converted = convert_coordinate(azara_coord)
-    
-    if azara_coord_converted == rui_coord:
-        return (treasure, azara_coord, location_name, rui_coord, quadrant)
+def create_record(azara_record, rui_record):
+    """Combine the two record types (if possible) and create a combined record group.
+    :param azara_record: tuple - a (treasure, coordinate) pair.
+    :param rui_record: tuple - a (location, coordinate, quadrant) trio.
+    :return: tuple or str - the combined record (if compatible), or the string "not a match" (if incompatible).
+    """
+    azara_coordinate = convert_coordinate(azara_record[1])
+    if azara_coordinate == rui_record[1]:
+        return (azara_record[0], azara_record[1], rui_record[0], rui_record[1], rui_record[2])
     else:
-        return "no coincide"
+        return "not a match"
 
-# Ejemplos de uso de las funciones
-print(get_coordinate(('Scrimshawed Whale Tooth', '2A')))  # Debería imprimir: 2A
+# Ejemplos de uso
+print(get_coordinate(('Scrimshawed Whale Tooth', '2A')))  # Debería imprimir: '2A'
 print(convert_coordinate("2A"))  # Debería imprimir: ('2', 'A')
 print(create_record(('Brass Spyglass', '4B'), ('Abandoned Lighthouse', ('4', 'B'), 'Blue')))
 # Debería imprimir: ('Brass Spyglass', '4B', 'Abandoned Lighthouse', ('4', 'B'), 'Blue')
 print(create_record(('Brass Spyglass', '4B'), ('Seaside Cottages', ('1', 'C'), 'Blue')))
-# Debería imprimir: "no coincide"
+# Debería imprimir: "not a match"
+
